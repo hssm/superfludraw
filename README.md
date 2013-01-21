@@ -1,4 +1,1 @@
-superfludraw
-============
-
-Superfluous drawing of runes in HTML5 canvas
+Superfluous drawing of runes in HTML5 canvas.

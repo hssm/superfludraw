@@ -1,0 +1,88 @@
+﻿<html>
+<head>
+
+<style>
+body
+{
+  background-color: #ccc;
+}
+
+#mainCanvas
+{
+  position: absolute;
+  background-color: #ffd;
+  margin: 0px;
+  top: 0;
+  left: 0;
+}
+</style>
+
+</head>
+<body>
+
+<canvas id="mainCanvas">
+Canvas goes here
+</canvas>
+
+
+<script>
+var c = document.getElementById("mainCanvas");
+var ctx = c.getContext("2d");
+ctx.canvas.width = window.innerWidth;
+ctx.canvas.height = window.innerHeight;
+
+var nthPixel = 0;
+
+function randomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.round(Math.random() * 15)];
+    }
+    return color;
+}
+
+function getRandom(min, max) {
+    return min + Math.floor(Math.random() * (max - min + 1));
+}
+
+function drawRandomChar(x, y) {
+    size = getRandom(45, 55);
+    text = String.fromCharCode(getRandom(0x2700, 0x27BF));
+    ctx.fillStyle = randomColor();
+    ctx.font = size+"px Arial";
+    ctx.fillText(text, x-size/4, y+size/4);
+}
+
+function onMouseMove(e) {
+    var x, y;
+
+    if(e.offsetX) {
+        x = e.offsetX;
+        y = e.offsetY;
+    }
+    else if(e.layerX) {
+        x = e.layerX;
+        y = e.layerY;
+    }
+    drawRandomChar(x, y);	
+}
+
+function onTouchMove(e) {
+    e.preventDefault();
+    var touches = e.changedTouches;
+
+    for (var i = 0; i < touches.length; i++) {
+        x = e.targetTouches[i].pageX;
+        y = e.targetTouches[i].pageY;
+        drawRandomChar(x, y);
+    }
+}
+
+c.addEventListener('mousemove', onMouseMove, false);
+c.addEventListener('touchmove', onTouchMove, false);
+c.addEventListener('touchstart', onTouchMove, false);
+
+</script>
+</body>
+</html>
