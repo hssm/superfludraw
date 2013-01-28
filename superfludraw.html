@@ -26,6 +26,11 @@ Canvas goes here
 
 
 <script>
+// Number of move events to ignore
+var flow = 5;
+// Current nth move event
+var flowAt = 5;
+
 var c = document.getElementById("mainCanvas");
 var ctx = c.getContext("2d");
 ctx.canvas.width = window.innerWidth;
@@ -46,8 +51,16 @@ function getRandom(min, max) {
     return min + Math.floor(Math.random() * (max - min + 1));
 }
 
+function drawEventAt(x, y) {
+    if (flowAt == 0) {
+        drawRandomChar(x, y);
+        flowAt = flow;
+    }
+    flowAt--;
+}
+
 function drawRandomChar(x, y) {
-    size = getRandom(45, 55);
+    size = getRandom(35, 45);
     text = String.fromCharCode(getRandom(0x2700, 0x27BF));
     ctx.fillStyle = randomColor();
     ctx.font = size+"px Arial";
@@ -65,7 +78,7 @@ function onMouseMove(e) {
         x = e.layerX;
         y = e.layerY;
     }
-    drawRandomChar(x, y);	
+    drawEventAt(x, y);	
 }
 
 function onTouchMove(e) {
@@ -75,7 +88,7 @@ function onTouchMove(e) {
     for (var i = 0; i < touches.length; i++) {
         x = e.targetTouches[i].pageX;
         y = e.targetTouches[i].pageY;
-        drawRandomChar(x, y);
+        drawEventAt(x, y);
     }
 }
 
